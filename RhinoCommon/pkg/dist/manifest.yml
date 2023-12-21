@@ -1,0 +1,17 @@
+---
+name: BESO
+version: 1.0
+authors:
+- www.nano3dtech.com
+description: Topology optimization using BESO or Bi-directional Evolutionary Structural Optimization. https://github.com/Megidd/BESO
+url: https://github.com/Megidd/BESO
+keywords:
+- Topology
+- Optimization
+- Topology-optimization
+- Finite-element-analysis
+- FEA
+- Generative-design
+- BESO
+- Bi-directional-Evolutionary-Structural-Optimization
+icon: icon.png
