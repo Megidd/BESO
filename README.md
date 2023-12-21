@@ -11,13 +11,9 @@ Simply visit the [plugin page](https://www.food4rhino.com/en/app/beso). Then log
 1. The plugin will be listed through the package manager UI.
 1. Click the install button.
 
-![Install trial by `_PackageManager` command](RhinoCommon/doc/install-package-manager.svg "Install trial via `_PackageManager` command")
-
 # How to use it
 
 Once the plugin is installed, its commands can be accessed by typing the plugin name on command line. Start typing `BESO` on Rhino3D command line to auto complete the plugin commands.
-
-![Access commands](RhinoCommon/doc/commands.svg "How to access plugin commands")
 
 ## Video guide
 
