@@ -5,14 +5,14 @@ using System.Runtime.InteropServices;
 
 // Plug-in Description Attributes - all of these are optional.
 // These will show in Rhino's option dialog, in the tab Plug-ins.
-[assembly: PlugInDescription(DescriptionType.Address, "")]
-[assembly: PlugInDescription(DescriptionType.Country, "")]
-[assembly: PlugInDescription(DescriptionType.Email, "")]
+[assembly: PlugInDescription(DescriptionType.Address, "Yonge St, Richmond Hill, ON")]
+[assembly: PlugInDescription(DescriptionType.Country, "Canada")]
+[assembly: PlugInDescription(DescriptionType.Email, "megiddgit@gmail.com")]
 [assembly: PlugInDescription(DescriptionType.Phone, "")]
 [assembly: PlugInDescription(DescriptionType.Fax, "")]
-[assembly: PlugInDescription(DescriptionType.Organization, "")]
+[assembly: PlugInDescription(DescriptionType.Organization, "www.nano3dtech.com")]
 [assembly: PlugInDescription(DescriptionType.UpdateUrl, "")]
-[assembly: PlugInDescription(DescriptionType.WebSite, "")]
+[assembly: PlugInDescription(DescriptionType.WebSite, "https://github.com/Megidd/BESO")]
 
 // Icons should be Windows .ico files and contain 32-bit images in the following sizes: 16, 24, 32, 48, and 256.
 [assembly: PlugInDescription(DescriptionType.Icon, "BESO.EmbeddedResources.plugin-utility.ico")]
