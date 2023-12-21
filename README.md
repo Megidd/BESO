@@ -17,7 +17,7 @@ Once the plugin is installed, its commands can be accessed by typing the plugin 
 
 ## Video guide
 
-A future video demonstrates how to use the plugin commands after installation.
+A future video will demonstrate how to use the plugin commands after installation.
 
 # Why this plugin?
 
