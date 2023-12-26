@@ -1,6 +1,7 @@
 ﻿using Rhino;
 using Rhino.Commands;
 using Rhino.DocObjects;
+using System;
 using System.IO;
 
 namespace BESO
@@ -62,6 +63,38 @@ namespace BESO
                     RhinoApp.WriteLine("It's out of range");
                     return Result.Failure;
             }
+
+            // Unit of measurement is Newton (N).
+            Double loadMagnitude = 0;
+            loadMagnitude = Helper.GetDoubleFromUser(100, 1, 1000, "Enter load magnitude in Newton (N)");
+
+            // Resolution is voxel (3D pixel) count on longest axis of 3D model AABB.
+            // NOTE: It will be further calibrated by the logic. Don't worry about it.
+            uint resolution = 30;
+
+            uint precision = Helper.GetUint32FromUser("Enter precision of computation. It highly affects the speed. VeryLow=1, Low=2, Medium=3, High=4, VeryHigh=5", 3, 1, 5);
+            switch (precision)
+            {
+                case 1:
+                    resolution = 30;
+                    break;
+                case 2:
+                    resolution = 60;
+                    break;
+                case 3:
+                    resolution = 90;
+                    break;
+                case 4:
+                    resolution = 120;
+                    break;
+                case 5:
+                    resolution = 150;
+                    break;
+                default:
+                    RhinoApp.WriteLine("Precision must be 1, 2, 3, 4, or 5 i.e. VeryLow=1, Low=2, Medium=3, High=4, VeryHigh=5");
+                    return Result.Failure;
+            }
+
 
             return Result.Success;
         }
