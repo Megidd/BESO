@@ -1,7 +1,9 @@
 ﻿using Rhino;
 using Rhino.Commands;
 using Rhino.DocObjects;
+using Rhino.Geometry;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace BESO
@@ -95,6 +97,38 @@ namespace BESO
                     return Result.Failure;
             }
 
+            List<Point3d> loadPoints = Helper.GetPointOnMesh(inObj, "Select load points on mesh (Esc/Enter to finish)");
+            if (loadPoints == null || loadPoints.Count < 1)
+            {
+                RhinoApp.WriteLine("No points are selected");
+                return Result.Failure;
+            }
+
+            List<Vector3d> loadNormals = new List<Vector3d>();
+            Mesh inMesh = inObj.Geometry as Mesh;
+            for (var i = 0; i < loadPoints.Count; i++)
+            {
+                MeshPoint mp = inMesh.ClosestMeshPoint(loadPoints[i], 0.0);
+                Vector3d normal = inMesh.NormalAt(mp);
+                loadNormals.Add(normal);
+            }
+
+            RhinoApp.WriteLine("Load/force points count: {0}", loadPoints.Count);
+
+            List<Load> loads = new List<Load>();
+            for (var i = 0; i < loadPoints.Count; i++)
+            {
+                Load load = new Load();
+                load.LocX = loadPoints[i].X;
+                load.LocY = loadPoints[i].Y;
+                load.LocZ = loadPoints[i].Z;
+                bool good = loadNormals[i].Unitize();
+                if (!good) RhinoApp.WriteLine("Warning: cannot normalize the load direction: {0}", loadNormals[i]);
+                load.MagX = loadNormals[i].X * loadMagnitude;
+                load.MagY = loadNormals[i].Y * loadMagnitude;
+                load.MagZ = loadNormals[i].Z * loadMagnitude;
+                loads.Add(load);
+            }
 
             return Result.Success;
         }
