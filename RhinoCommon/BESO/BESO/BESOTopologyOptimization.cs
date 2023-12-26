@@ -183,7 +183,32 @@ namespace BESO
             string specsJson = JsonSerializer.Serialize(specs);
             File.WriteAllText(specsPth, specsJson);
 
+            // Prepare arguments as text fields.
+            string args = "";
+            args += " ";
+            args += specsPth;
+
+            // Generate finite elements required by FEA.
+            Helper.RunLogicWithLog("finite_elements.exe", args, PostProcess);
+
+            RhinoApp.WriteLine("Process started. Please wait...");
+
+            // TODO: run FEA.
+
             return Result.Success;
+        }
+
+        private static void PostProcess(object sender, EventArgs e)
+        {
+            try
+            {
+                RhinoApp.WriteLine("Post process started.");
+                RhinoApp.WriteLine("Post process finished.");
+            }
+            catch (Exception ex)
+            {
+                RhinoApp.WriteLine("Error on post process: {0}", ex.Message);
+            }
         }
     }
 }
