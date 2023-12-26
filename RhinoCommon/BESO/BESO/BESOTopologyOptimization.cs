@@ -161,6 +161,28 @@ namespace BESO
             string restraintJson = JsonSerializer.Serialize(restraints);
             File.WriteAllText(restraintPth, restraintJson);
 
+            Dictionary<string, dynamic> specs = new Dictionary<string, dynamic>();
+            specs.Add("PathStl", stlPth);
+            specs.Add("PathLoadPoints", loadPth);
+            specs.Add("PathRestraintPoints", restraintPth);
+            specs.Add("MassDensity", MassDensity);
+            specs.Add("YoungModulus", YoungModulus);
+            specs.Add("PoissonRatio", PoissonRatio);
+            specs.Add("GravityDirectionX", 0);
+            specs.Add("GravityDirectionY", 0);
+            specs.Add("GravityDirectionZ", -1);
+            specs.Add("GravityMagnitude", Unit.Convert(9.810f, UnitSystem.Meters, Helper.unitOfStlFile));
+            specs.Add("GravityIsNeeded", false); // Let's not consider gravity. Point loads should be dominant.
+            specs.Add("Resolution", resolution);
+            specs.Add("NonlinearConsidered", false);
+            specs.Add("ExactSurfaceConsidered", true);
+            specs.Add("ModelUnitSystem", doc.ModelUnitSystem.ToString());
+            specs.Add("ModelUnitSystemOfSavedStlFile", Helper.unitOfStlFile.ToString());
+
+            string specsPth = Path.GetTempPath() + "specs.json";
+            string specsJson = JsonSerializer.Serialize(specs);
+            File.WriteAllText(specsPth, specsJson);
+
             return Result.Success;
         }
     }
