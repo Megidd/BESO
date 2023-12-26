@@ -14,6 +14,7 @@ namespace BESO
 {
     internal class Helper
     {
+        // Any STL file will be saved by this unit of measurement.
         public static UnitSystem unitOfStlFile = UnitSystem.Millimeters;
 
         public static RhinoObject GetInputStl(UnitSystem unit, string filename = "mesh.stl")
