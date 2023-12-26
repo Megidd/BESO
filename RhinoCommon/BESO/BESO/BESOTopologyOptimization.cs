@@ -5,6 +5,7 @@ using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 
 namespace BESO
 {
@@ -151,6 +152,14 @@ namespace BESO
                 restraint.IsFixedZ = true;
                 restraints.Add(restraint);
             }
+
+            string loadPth = Path.GetTempPath() + "load-points.json";
+            string loadJson = JsonSerializer.Serialize(loads);
+            File.WriteAllText(loadPth, loadJson);
+
+            string restraintPth = Path.GetTempPath() + "restraint-points.json";
+            string restraintJson = JsonSerializer.Serialize(restraints);
+            File.WriteAllText(restraintPth, restraintJson);
 
             return Result.Success;
         }
