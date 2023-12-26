@@ -130,6 +130,28 @@ namespace BESO
                 loads.Add(load);
             }
 
+            List<Point3d> restraintPoints = Helper.GetPointOnMesh(inObj, "Select restraint points on mesh (Esc/Enter to finish)");
+            if (restraintPoints == null || restraintPoints.Count < 1)
+            {
+                RhinoApp.WriteLine("No points are selected");
+                return Result.Failure;
+            }
+
+            RhinoApp.WriteLine("Restraint points count: {0}", restraintPoints.Count);
+
+            List<Restraint> restraints = new List<Restraint>();
+            for (var i = 0; i < restraintPoints.Count; i++)
+            {
+                Restraint restraint = new Restraint();
+                restraint.LocX = restraintPoints[i].X;
+                restraint.LocY = restraintPoints[i].Y;
+                restraint.LocZ = restraintPoints[i].Z;
+                restraint.IsFixedX = true;
+                restraint.IsFixedY = true;
+                restraint.IsFixedZ = true;
+                restraints.Add(restraint);
+            }
+
             return Result.Success;
         }
     }
