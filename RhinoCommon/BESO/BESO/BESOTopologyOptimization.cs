@@ -23,6 +23,7 @@ namespace BESO
         protected override Result RunCommand(RhinoDoc doc, RunMode mode)
         {
             // Input object to be saved as STL.
+            // Material props are all based on mm, so STL unit would be converted to mm.
             string stlPth = Path.GetTempPath() + "input.stl";
             RhinoObject inObj = Helper.GetInputStl(doc.ModelUnitSystem, stlPth);
             if (inObj == null)
