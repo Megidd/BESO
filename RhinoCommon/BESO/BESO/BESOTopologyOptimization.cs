@@ -1,10 +1,7 @@
 ﻿using Rhino;
 using Rhino.Commands;
-using Rhino.Geometry;
-using Rhino.Input;
-using Rhino.Input.Custom;
-using System;
-using System.Collections.Generic;
+using Rhino.DocObjects;
+using System.IO;
 
 namespace BESO
 {
@@ -25,6 +22,13 @@ namespace BESO
 
         protected override Result RunCommand(RhinoDoc doc, RunMode mode)
         {
+            // Input object to be saved as STL.
+            string stlPth = Path.GetTempPath() + "input.stl";
+            RhinoObject inObj = Helper.GetInputStl(doc.ModelUnitSystem, stlPth);
+            if (inObj == null)
+            {
+                return Result.Failure;
+            }
             return Result.Success;
         }
     }
