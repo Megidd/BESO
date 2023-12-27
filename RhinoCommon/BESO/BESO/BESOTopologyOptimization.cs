@@ -162,6 +162,8 @@ namespace BESO
             File.WriteAllText(restraintPth, restraintJson);
 
             Dictionary<string, dynamic> specs = new Dictionary<string, dynamic>();
+            specs.Add("PathResult", Path.GetTempPath() + "result.inp");
+            specs.Add("PathReport", Path.GetTempPath() + "report.json");
             specs.Add("PathStl", stlPth);
             specs.Add("PathLoadPoints", loadPth);
             specs.Add("PathRestraintPoints", restraintPth);
