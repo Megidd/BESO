@@ -190,26 +190,56 @@ namespace BESO
             args += " ";
             args += specsPth;
 
+            RhinoApp.WriteLine("Finite elements...");
             // Generate finite elements required by FEA.
-            Helper.RunLogicWithLog("finite_elements.exe", args, PostProcess);
-
-            RhinoApp.WriteLine("Process started. Please wait...");
-
-            // TODO: run FEA.
+            Helper.RunLogicWithLog("finite_elements.exe", args, runFEA);
 
             return Result.Success;
         }
 
-        private static void PostProcess(object sender, EventArgs e)
+        private static void runFEA(object sender, EventArgs e)
         {
             try
             {
-                RhinoApp.WriteLine("Post process started.");
-                RhinoApp.WriteLine("Post process finished.");
+                RhinoApp.WriteLine("FEA...");
+                string args = "-i" + " " + Path.GetTempPath() + "result";
+                // Do FEA i.e. finite element analysis.
+                Helper.RunLogic("ccx_static.exe", args, displayFEA);
             }
             catch (Exception ex)
             {
-                RhinoApp.WriteLine("Error on post process: {0}", ex.Message);
+                RhinoApp.WriteLine("Error: {0}", ex.Message);
+            }
+        }
+
+        private static void displayFEA(object sender, EventArgs e)
+        {
+            try
+            {
+                RhinoApp.WriteLine("FEA result...");
+                // Create a CGX config file with the correct FRD file name.
+                string text = File.ReadAllText("cfg.fbd");
+                text = text.Replace("result.frd", Path.GetTempPath()+ "result.frd");
+                File.WriteAllText(Path.GetTempPath() + "cfg.fbd", text);
+                string args = "-b" + " " + Path.GetTempPath() + "cfg.fbd";
+                // Visualize FEA result.
+                Helper.RunLogic("cgx_STATIC.exe", args, runBESO);
+            }
+            catch (Exception ex)
+            {
+                RhinoApp.WriteLine("Error: {0}", ex.Message);
+            }
+        }
+
+        private static void runBESO(object sender, EventArgs e)
+        {
+            try
+            {
+                RhinoApp.WriteLine("BESO...");
+            }
+            catch (Exception ex)
+            {
+                RhinoApp.WriteLine("Error: {0}", ex.Message);
             }
         }
     }
