@@ -236,6 +236,34 @@ namespace BESO
             try
             {
                 RhinoApp.WriteLine("BESO...");
+                Helper.RunLogicBESO(displayBESO);
+            }
+            catch (Exception ex)
+            {
+                RhinoApp.WriteLine("Error: {0}", ex.Message);
+            }
+        }
+
+        private static void displayBESO(object sender, EventArgs e)
+        {
+            try
+            {
+                RhinoApp.WriteLine("BESO result...");
+                string args = "-c" + " " + "beso" + Path.DirectorySeparatorChar + "file060_state1.inp";
+                // Visualize FEA result.
+                Helper.RunLogic("cgx_STATIC.exe", args, done);
+            }
+            catch (Exception ex)
+            {
+                RhinoApp.WriteLine("Error: {0}", ex.Message);
+            }
+        }
+
+        private static void done(object sender, EventArgs e)
+        {
+            try
+            {
+                RhinoApp.WriteLine("BESO done.");
             }
             catch (Exception ex)
             {

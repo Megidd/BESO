@@ -353,6 +353,45 @@ namespace BESO
             }
         }
 
+        public static void RunLogicBESO(PostProcess pp)
+        {
+            cmd = new Process();
+
+            try
+            {
+                cmd.StartInfo.FileName = "cmd.exe";
+                cmd.StartInfo.Arguments = "";
+                cmd.StartInfo.UseShellExecute = false; // To be able to activate Python env.
+                cmd.StartInfo.CreateNoWindow = false;
+                cmd.StartInfo.RedirectStandardOutput = false;
+                cmd.StartInfo.RedirectStandardError = false;
+                cmd.StartInfo.RedirectStandardInput = true; // To be able to write line.
+                // Vista or higher check.
+                // https://stackoverflow.com/a/2532775/3405291
+                // Rhino 7 requires Windows 11, 10 or 8.1 so we are good :)
+                // https://www.rhino3d.com/7/system-requirements/
+                if (System.Environment.OSVersion.Version.Major >= 6)
+                {
+                    // Run with admin privileges to avoid non-responsive CGX window.
+                    cmd.StartInfo.Verb = "runas";
+                }
+                cmd.EnableRaisingEvents = true;
+                cmd.Exited += new EventHandler(cmd_Exited);
+                cmd.Exited += new EventHandler(pp);
+
+                cmd.Start();
+                cmd.StandardInput.WriteLine("cd beso\\");
+                cmd.StandardInput.WriteLine("virtual_env\\Scripts\\activate.bat");
+                // Python virtual env already has the numpy and matplotlib.
+                cmd.StandardInput.WriteLine("python beso_main.py");
+            }
+
+            catch (Exception ex)
+            {
+                RhinoApp.WriteLine("Error on process start: {0}", ex.Message);
+            }
+        }
+
         private static void cmd_Exited(object sender, EventArgs e)
         {
             try
