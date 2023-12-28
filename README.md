@@ -25,6 +25,10 @@ A future video will demonstrate how to use the plugin commands after installatio
 
 ![FEA result for the original model](RhinoCommon/doc/FEA.png "FEA result for the original model")
 
+### BESO result
+
+![BESO result](RhinoCommon/doc/BESO.png "BESO result")
+
 # Why this plugin?
 
 An in-depth description of BESO and its capabilities are available on the [wiki](https://github.com/calculix/beso/wiki/Basic-description).
@@ -37,7 +41,7 @@ This plugin offers a `BESOTopologyOptimization` command to optimize usage proces
 
 This command helps you optimize the toplogy of 3D model[^1]. You can keep the model strength while decreasing its weight. The finite element analysis - FEA - along with topology optimization are the technologies under the hood. FEA will be done according to user-selected loads and restraints. An optimized 3D model will be generated. Some elements of the original 3D model are removed without affecting the required strength.
 
-![Topology optimization]( RhinoCommon/doc/BESO.png "Topology optimization")
+![Topology optimization]( RhinoCommon/doc/BESO-org.png "Topology optimization")
 
 When its development is finished, it will provide an alternative for what Frustum does. The figure below is taken from Frustum.
 
