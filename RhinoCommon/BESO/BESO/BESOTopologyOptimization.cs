@@ -236,6 +236,7 @@ namespace BESO
             try
             {
                 RhinoApp.WriteLine("BESO...");
+                // TODO: Modify `beso_conf.py` pointing to the correct `file_name` of INP.
                 Helper.RunLogicBESO(displayBESO);
             }
             catch (Exception ex)
@@ -249,6 +250,7 @@ namespace BESO
             try
             {
                 RhinoApp.WriteLine("BESO result...");
+                // TODO: display the last file.
                 string args = "-c" + " " + "beso" + Path.DirectorySeparatorChar + "file060_state1.inp";
                 // Visualize FEA result.
                 Helper.RunLogic("cgx_STATIC.exe", args, done);

@@ -384,6 +384,8 @@ namespace BESO
                 cmd.StandardInput.WriteLine("virtual_env\\Scripts\\activate.bat");
                 // Python virtual env already has the numpy and matplotlib.
                 cmd.StandardInput.WriteLine("python beso_main.py");
+                // Have to exit to jump to the post-process.
+                cmd.StandardInput.WriteLine("exit");
             }
 
             catch (Exception ex)
