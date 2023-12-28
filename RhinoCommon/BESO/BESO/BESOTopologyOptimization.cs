@@ -191,7 +191,7 @@ namespace BESO
             args += specsPth;
 
             // Generate finite elements required by FEA.
-            Helper.RunLogicWithLog(Directory.GetCurrentDirectory()+Path.DirectorySeparatorChar+"beso"+Path.DirectorySeparatorChar+"finite_elements.exe", args, PostProcess);
+            Helper.RunLogicWithLog("."+Path.DirectorySeparatorChar+"beso"+Path.DirectorySeparatorChar+"finite_elements.exe", args, PostProcess);
 
             RhinoApp.WriteLine("Process started. Please wait...");
 
