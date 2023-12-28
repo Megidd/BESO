@@ -15,9 +15,13 @@ Simply visit the [plugin page](https://www.food4rhino.com/en/app/beso). Then log
 
 Once the plugin is installed, its commands can be accessed by typing the plugin name on command line. Start typing `BESO` on Rhino3D command line to auto complete the plugin commands.
 
-## Video guide
+## User guide
 
 A future video will demonstrate how to use the plugin commands after installation.
+
+## Screenshots
+
+![FEA result for the original model](RhinoCommon/doc/FEA.png "FEA result for the original model")
 
 # Why this plugin?
 
