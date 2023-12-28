@@ -23,7 +23,7 @@ A future video will demonstrate how to use the plugin commands after installatio
 
 ### Original model
 
-![FEA result for the original model](RhinoCommon/doc/FEA.svg "FEA result for the original model")
+![FEA result for the original model](RhinoCommon/doc/FEA.png "FEA result for the original model")
 
 # Why this plugin?
 
