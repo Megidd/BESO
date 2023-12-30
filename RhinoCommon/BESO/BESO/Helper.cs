@@ -566,6 +566,32 @@ namespace BESO
                 throw new FileNotFoundException("No files found in the directory.");
             }
         }
+
+        public static void ReplaceLineInFile(string filePath, string lineToReplace, string newLine)
+        {
+            try
+            {
+                string[] lines = File.ReadAllLines(filePath);
+
+                int lineIndex = Array.FindIndex(lines, line => line.Contains(lineToReplace));
+
+                if (lineIndex >= 0)
+                {
+                    // Replace the line with the new line
+                    lines[lineIndex] = newLine;
+
+                    File.WriteAllLines(filePath, lines);
+                }
+                else
+                {
+                    RhinoApp.WriteLine("Line not found in the file.");
+                }
+            }
+            catch (Exception ex)
+            {
+                RhinoApp.WriteLine(ex.Message);
+            }
+        }
     }
 
     public class Restraint
