@@ -550,6 +550,22 @@ namespace BESO
 
             return gn.Number();
         }
+
+        public static string GetLastFileName(string directoryPath, string searchPattern)
+        {
+            string[] files = Directory.GetFiles(directoryPath, searchPattern);
+            Array.Sort(files);
+
+            if (files.Length > 0)
+            {
+                string lastFileName = Path.GetFileName(files[files.Length - 1]);
+                return lastFileName;
+            }
+            else
+            {
+                throw new FileNotFoundException("No files found in the directory.");
+            }
+        }
     }
 
     public class Restraint

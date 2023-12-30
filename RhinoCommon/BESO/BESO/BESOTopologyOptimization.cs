@@ -250,8 +250,9 @@ namespace BESO
             try
             {
                 RhinoApp.WriteLine("BESO result...");
-                // TODO: display the last file.
-                string args = "-c" + " " + "beso" + Path.DirectorySeparatorChar + "file060_state1.inp";
+                // Display the last file.
+                string lastFileName = Helper.GetLastFileName("beso", "file*_state1.inp");
+                string args = "-c" + " " + "beso" + Path.DirectorySeparatorChar + lastFileName;
                 // Visualize FEA result.
                 Helper.RunLogic("cgx_STATIC.exe", args, done);
             }
