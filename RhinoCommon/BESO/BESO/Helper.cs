@@ -592,6 +592,23 @@ namespace BESO
                 RhinoApp.WriteLine(ex.Message);
             }
         }
+
+        public static void DeleteFilesByPattern(string directoryPath, string searchPattern)
+        {
+            try
+            {
+                string[] files = Directory.GetFiles(directoryPath, searchPattern);
+
+                foreach (string file in files)
+                {
+                    File.Delete(file);
+                }
+            }
+            catch (Exception ex)
+            {
+                RhinoApp.WriteLine(ex.Message);
+            }
+        }
     }
 
     public class Restraint

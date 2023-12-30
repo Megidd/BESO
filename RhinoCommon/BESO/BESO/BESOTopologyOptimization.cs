@@ -236,6 +236,10 @@ namespace BESO
             try
             {
                 RhinoApp.WriteLine("BESO...");
+                // Delete files of previous BESO run.
+                Helper.DeleteFilesByPattern("beso", "file*");
+                Helper.DeleteFilesByPattern("beso", "resulting_states*");
+                Helper.DeleteFilesByPattern("beso", "*.png");
                 // Modify `beso_conf.py` pointing to the correct `file_name` of INP.
                 Char psep = Path.DirectorySeparatorChar;
                 string p = Path.GetTempPath().Replace($@"{psep}", $@"{psep}{psep}");
