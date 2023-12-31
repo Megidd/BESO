@@ -236,7 +236,7 @@ namespace BESO
             try
             {
                 RhinoApp.WriteLine("BESO...");
-                // Delete files of previous BESO run.
+                // Delete files of previous BESO run, if any.
                 Helper.DeleteFilesByPattern("beso", "file*");
                 Helper.DeleteFilesByPattern("beso", "resulting_states*");
                 Helper.DeleteFilesByPattern("beso", "*.png");
