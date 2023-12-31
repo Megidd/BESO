@@ -17,7 +17,7 @@ cpu_cores = 1  # 0 - use all processor cores, N - will use N number of processor
 ## Run BESO
 
 ```batch
-cd C:\Users\m3\repos\beso 				# Go to BESO repository folder
+cd C:\Users\m3\repos\beso 				# Go to BESO repository folder: https://github.com/calculix/beso
 pip install virtualenv --user 			# Install virtual env, also: https://github.com/pypa/pip/issues/11845
 python -m venv virtual_env 				# Create a virtual env
 virtual_env\Scripts\activate.bat 		# Activate the virtual env
