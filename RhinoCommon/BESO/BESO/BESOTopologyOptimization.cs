@@ -256,6 +256,12 @@ namespace BESO
                     "path_calculix =",
                     "path_calculix = \"..\\\\ccx_static.exe\" # path to the CalculiX solver"
                     );
+                // Limit cpu cores to avoid freezing the device.
+                Helper.ReplaceLineInFile(
+                    "beso" + Path.DirectorySeparatorChar + "beso_conf.py",
+                    "cpu_cores =",
+                    "cpu_cores = 1  # 0 - use all processor cores, N - will use N number of processor cores"
+                    );
                 Helper.RunLogicBESO(displayBESO);
             }
             catch (Exception ex)
