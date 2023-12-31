@@ -33,3 +33,9 @@ For the square benchmark and current config, BESO went through 62 iterations. Lo
 ```batch
 c:\Users\m3\Downloads\calculix_2.21_4win\cgx_STATIC.exe -c file062_state1.inp
 ```
+
+## BESO requirements
+
+The `requirements.txt` file is created by `pip freeze > requirements.txt` after activating the virtual env.
+
+They can be installed by `pip install -r requirements.txt` after activating the virtual env.
