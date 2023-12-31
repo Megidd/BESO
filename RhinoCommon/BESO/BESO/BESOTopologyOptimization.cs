@@ -250,6 +250,12 @@ namespace BESO
                     "file_name =",
                     "file_name = \"" + p + "result.inp" + "\" # file with prepared linear static analysis"
                     );
+                // Point `beso_conf.py` to CCX executable.
+                Helper.ReplaceLineInFile(
+                    "beso" + Path.DirectorySeparatorChar + "beso_conf.py",
+                    "path_calculix =",
+                    "path_calculix = \"..\\\\ccx_static.exe\" # path to the CalculiX solver"
+                    );
                 Helper.RunLogicBESO(displayBESO);
             }
             catch (Exception ex)
