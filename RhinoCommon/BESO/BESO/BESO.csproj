@@ -17,4 +17,8 @@
     <PackageReference Include="System.Text.Json" Version="8.0.0" />
   </ItemGroup>
   
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy.exe /D /Y /E &quot;$(ProjectDir)RuntimeEnv\*&quot; &quot;$(TargetDir)&quot;&#xD;&#xA;" />
+  </Target>
+  
 </Project>
