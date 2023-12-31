@@ -35,16 +35,14 @@ An in-depth description of BESO and its capabilities are available on the [wiki]
 
 # Commands
 
-This plugin offers a `BESOTopologyOptimization` command to optimize usage process. Making sure your 3D model has maximum strength and minimum weight[^1].
+This plugin offers a `BESOTopologyOptimization` command to optimize usage process. Making sure your 3D model has maximum strength and minimum weight.
 
 ## `BESOTopologyOptimization` command
 
-This command helps you optimize the toplogy of 3D model[^1]. You can keep the model strength while decreasing its weight. The finite element analysis - FEA - along with topology optimization are the technologies under the hood. FEA will be done according to user-selected loads and restraints. An optimized 3D model will be generated. Some elements of the original 3D model are removed without affecting the required strength.
+This command helps you optimize the toplogy of 3D model. You can keep the model strength while decreasing its weight. The finite element analysis - FEA - along with topology optimization are the technologies under the hood. FEA will be done according to user-selected loads and restraints. An optimized 3D model will be generated. Some elements of the original 3D model are removed without affecting the required strength.
 
 ![Topology optimization]( RhinoCommon/doc/BESO-org.png "Topology optimization")
 
 When its development is finished, it will provide an alternative for what Frustum does. The figure below is taken from Frustum.
 
 ![How Frustum optimizes 3D models]( RhinoCommon/doc/Frustum.webp " How Frustum optimizes 3D models")
-
-[^1]: This command is not available yet. It's being developed.
