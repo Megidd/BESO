@@ -1,0 +1,11 @@
+# Reading the FRD file...
+read result.frd
+
+capt FEA result for the original model
+ulin Units are N, mm, MPa
+
+# Data set number depends on how may things you saved.
+ds 2 e 7
+
+view bg k
+view rul off

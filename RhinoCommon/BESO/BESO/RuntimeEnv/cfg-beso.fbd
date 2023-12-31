@@ -1,0 +1,8 @@
+# Reading the INP file...
+read file?_state1.inp
+
+capt BESO last iteration
+ulin Topology optimization result
+
+view bg k
+view rul off
