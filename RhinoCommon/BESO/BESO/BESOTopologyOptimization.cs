@@ -219,7 +219,7 @@ namespace BESO
                 RhinoApp.WriteLine("FEA result...");
                 // Create a CGX config file with the correct FRD file name.
                 string text = File.ReadAllText("cfg.fbd");
-                text = text.Replace("result.frd", Path.GetTempPath()+ "result.frd");
+                text = text.Replace("result.frd", Path.GetTempPath() + "result.frd");
                 File.WriteAllText(Path.GetTempPath() + "cfg.fbd", text);
                 string args = "-b" + " " + Path.GetTempPath() + "cfg.fbd";
                 // Visualize FEA result.
@@ -246,7 +246,7 @@ namespace BESO
                 Char psep = Path.DirectorySeparatorChar;
                 string p = Path.GetTempPath().Replace($@"{psep}", $@"{psep}{psep}");
                 Helper.ReplaceLineInFile(
-                    "beso"+Path.DirectorySeparatorChar+ "beso_conf.py",
+                    "beso" + Path.DirectorySeparatorChar + "beso_conf.py",
                     "file_name =",
                     "file_name = \"" + p + "result.inp" + "\" # file with prepared linear static analysis"
                     );
