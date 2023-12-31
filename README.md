@@ -43,6 +43,6 @@ This command helps you optimize the toplogy of 3D model. You can keep the model 
 
 ![Topology optimization]( RhinoCommon/doc/BESO-org.png "Topology optimization")
 
-It will provide an opensource alternative for what Frustum does. The figure below is taken from Frustum.
+It may provide an opensource alternative for what Frustum does. The figure below is taken from Frustum.
 
 ![How Frustum optimizes 3D models]( RhinoCommon/doc/Frustum.webp " How Frustum optimizes 3D models")
