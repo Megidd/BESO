@@ -277,8 +277,12 @@ namespace BESO
                 RhinoApp.WriteLine("BESO result...");
                 // Display the last file.
                 string lastFileName = Helper.GetLastFileName("beso", "file*_state1.inp");
-                string args = "-c" + " " + "beso" + Path.DirectorySeparatorChar + lastFileName;
-                // Visualize FEA result.
+                // Create a CGX config file with the correct file name.
+                string text = File.ReadAllText("cfg-beso.fbd");
+                text = text.Replace("file?_state1.inp", "beso" + Path.DirectorySeparatorChar + lastFileName);
+                File.WriteAllText(Path.GetTempPath() + "cfg-beso.fbd", text);
+                string args = "-b" + " " + Path.GetTempPath() + "cfg-beso.fbd";
+                // Visualize BESO result.
                 Helper.RunLogic("cgx_STATIC.exe", args, done);
             }
             catch (Exception ex)
