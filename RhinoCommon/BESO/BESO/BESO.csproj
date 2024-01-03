@@ -8,10 +8,20 @@
     <TargetExt>.rhp</TargetExt>
     <AssemblyVersion>1.0.2</AssemblyVersion>
     <FileVersion>1.0.2</FileVersion>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/Megidd/BESO</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Megidd/BESO</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="EmbeddedResources\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\pkg\dist\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
   
   <ItemGroup>
