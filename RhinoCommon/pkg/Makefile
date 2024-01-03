@@ -6,12 +6,13 @@
 # To delete outdated files.
 clean:
 	cd %userprofile%\go\src\BESO\RhinoCommon\pkg\dist
-	del beso-*.yak 2> NUL
-	del BESO.rhp 2> NUL
-	del System* 2> NUL
-	del Microsoft* 2> NUL
-	del temp.bat 2> NUL
+	del *.yak 2> NUL
+	del *.rhp 2> NUL
+	del *.dll 2> NUL
+	del *.exe 2> NUL
+	del *.bat 2> NUL
 	del NULL 2> NUL
+	del *.fbd 2> NUL
 
 # To create the manifest file, if `manifest.yml` doesn't exist already.
 # If manifest exists, the version must be incremented before each push to server.
