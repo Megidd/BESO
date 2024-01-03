@@ -52,8 +52,8 @@ zip:
 	cd %userprofile%\go\src\BESO\RhinoCommon\pkg
 	powershell Compress-Archive -Force dist BESO.zip
 
-# To create and distribute the trial release as a Rhino3D plugin package.
-distribute-trial: clean trial install pkg push search
+# To create and distribute the release as a Rhino3D plugin package.
+distribute-server: clean install pkg push search
 
 # To create and distribute the release as a Rhino3D plugin ZIP file.
-distribute: clean install zip
+distribute: clean install pkg zip
