@@ -13,6 +13,7 @@ clean:
 	del *.bat 2> NUL
 	del NULL 2> NUL
 	del *.fbd 2> NUL
+	rmdir /s /q beso> NUL
 
 # To create the manifest file, if `manifest.yml` doesn't exist already.
 # If manifest exists, the version must be incremented before each push to server.
@@ -22,7 +23,7 @@ manifest:
 # Install the binaries inside the distribution folder.
 install:
 	cd %userprofile%\go\src\BESO\RhinoCommon\pkg\dist
-	copy "%userprofile%\go\src\BESO\RhinoCommon\BESO\BESO\bin\Release\net48\*" .
+	xcopy /E "%userprofile%\go\src\BESO\RhinoCommon\BESO\BESO\bin\Release\net48\*" .>NUL
 	del BESO.pdb
 
 # To create plugin package.
