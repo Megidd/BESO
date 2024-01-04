@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
-    <Version>1.0.4.0</Version>
+    <Version>1.0.5.0</Version>
     <Title>BESO</Title>
     <Description>Description of BESO</Description>
     <TargetExt>.rhp</TargetExt>
-    <AssemblyVersion>1.0.4.0</AssemblyVersion>
-    <FileVersion>1.0.4.0</FileVersion>
+    <AssemblyVersion>1.0.5.0</AssemblyVersion>
+    <FileVersion>1.0.5.0</FileVersion>
     <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/Megidd/BESO</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Megidd/BESO</RepositoryUrl>
