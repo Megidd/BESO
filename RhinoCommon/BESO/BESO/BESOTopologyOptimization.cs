@@ -26,10 +26,7 @@ namespace BESO
 
         protected override Result RunCommand(RhinoDoc doc, RunMode mode)
         {
-            // Input object to be saved as STL.
-            // Material props are all based on mm, so STL unit would be converted to mm.
-            string stlPth = Path.GetTempPath() + "input.stl";
-            RhinoObject inObj = Helper.GetInputStl(doc.ModelUnitSystem, stlPth);
+            RhinoObject inObj = Helper.GetInputStl(doc.ModelUnitSystem, Paths.stl);
             if (inObj == null)
             {
                 return Result.Failure;
@@ -153,20 +150,18 @@ namespace BESO
                 restraints.Add(restraint);
             }
 
-            string loadPth = Path.GetTempPath() + "load-points.json";
             string loadJson = JsonSerializer.Serialize(loads);
-            File.WriteAllText(loadPth, loadJson);
+            File.WriteAllText(Paths.load, loadJson);
 
-            string restraintPth = Path.GetTempPath() + "restraint-points.json";
             string restraintJson = JsonSerializer.Serialize(restraints);
-            File.WriteAllText(restraintPth, restraintJson);
+            File.WriteAllText(Paths.restraint, restraintJson);
 
             Dictionary<string, dynamic> specs = new Dictionary<string, dynamic>();
-            specs.Add("PathResult", Path.GetTempPath() + "result.inp");
-            specs.Add("PathReport", Path.GetTempPath() + "report.json");
-            specs.Add("PathStl", stlPth);
-            specs.Add("PathLoadPoints", loadPth);
-            specs.Add("PathRestraintPoints", restraintPth);
+            specs.Add("PathResult", Paths.result);
+            specs.Add("PathReport", Paths.report);
+            specs.Add("PathStl", Paths.stl);
+            specs.Add("PathLoadPoints", Paths.load);
+            specs.Add("PathRestraintPoints", Paths.restraint);
             specs.Add("MassDensity", MassDensity);
             specs.Add("YoungModulus", YoungModulus);
             specs.Add("PoissonRatio", PoissonRatio);
@@ -181,26 +176,24 @@ namespace BESO
             specs.Add("ModelUnitSystem", doc.ModelUnitSystem.ToString());
             specs.Add("ModelUnitSystemOfSavedStlFile", Helper.unitOfStlFile.ToString());
 
-            string specsPth = Path.GetTempPath() + "specs.json";
             string specsJson = JsonSerializer.Serialize(specs);
-            File.WriteAllText(specsPth, specsJson);
+            File.WriteAllText(Paths.specs, specsJson);
 
             // Prepare arguments as text fields.
             string args = "";
             args += " ";
-            args += specsPth;
+            args += Paths.specs;
 
-            var exePath = Path.Combine(Helper.AssemblyDirectory, "finite_elements.exe");
-            RhinoApp.WriteLine("Working: {0}", exePath);
+            RhinoApp.WriteLine("Working: {0}", Paths.fe);
 
-            if (File.Exists(exePath))
+            if (File.Exists(Paths.fe))
             {
                 // Run external process
                 // Generate finite elements required by FEA.
-                Helper.RunLogicWithLog(exePath, args, runFEA);
+                Helper.RunLogicWithLog(Paths.fe, args, runFEA);
             } else
             {
-                RhinoApp.WriteLine("File doesn't exist: ", exePath);
+                RhinoApp.WriteLine("Doesn't exist: ", Paths.fe);
                 return Result.Failure;
             }
 
@@ -211,20 +204,17 @@ namespace BESO
         {
             try
             {
-                string args = "-i" + " " + Path.GetTempPath() + "result";
+                RhinoApp.WriteLine("Working: {0}", Paths.ccx);
 
-                var exePath = Path.Combine(Helper.AssemblyDirectory, "ccx_static.exe");
-                RhinoApp.WriteLine("Working: {0}", exePath);
-
-                if (File.Exists(exePath))
+                if (File.Exists(Paths.ccx))
                 {
-                    // Run external process
+                    string args = "-i" + " " + Paths.resultNoExt;
                     // Do FEA i.e. finite element analysis.
-                    Helper.RunLogic(exePath, args, displayFEA);
+                    Helper.RunLogic(Paths.ccx, args, displayFEA);
                 }
                 else
                 {
-                    RhinoApp.WriteLine("File doesn't exist: ", exePath);
+                    RhinoApp.WriteLine("Doesn't exist: ", Paths.ccx);
                 }
 
             }
@@ -239,23 +229,22 @@ namespace BESO
             try
             {
                 // Create a CGX config file with the correct FRD file name.
-                string text = File.ReadAllText(Path.Combine(Helper.AssemblyDirectory, "cfg.fbd"));
-                text = text.Replace("result.frd", Path.GetTempPath() + "result.frd");
-                File.WriteAllText(Path.GetTempPath() + "cfg.fbd", text);
-                string args = "-b" + " " + Path.GetTempPath() + "cfg.fbd";
+                string text = File.ReadAllText(Paths.cgx_cfg_fea_org);
+                text = text.Replace("result.frd", Paths.result_frd);
+                File.WriteAllText(Paths.cgx_cfg_fea_new, text);
+                string args = "-b" + " " + Paths.cgx_cfg_fea_new;
 
-                var exePath = Path.Combine(Helper.AssemblyDirectory, "cgx_STATIC.exe");
-                RhinoApp.WriteLine("Working: {0}", exePath);
+                RhinoApp.WriteLine("Working: {0}", Paths.cgx);
 
-                if (File.Exists(exePath))
+                if (File.Exists(Paths.cgx))
                 {
                     // Run external process
                     // Visualize FEA result.
-                    Helper.RunLogic(exePath, args, runBESO);
+                    Helper.RunLogic(Paths.cgx, args, runBESO);
                 }
                 else
                 {
-                    RhinoApp.WriteLine("File doesn't exist: ", exePath);
+                    RhinoApp.WriteLine("Doesn't exist: ", Paths.cgx);
                 }
             }
             catch (Exception ex)
@@ -268,35 +257,30 @@ namespace BESO
         {
             try
             {
-                var dirBeso = Path.Combine(Helper.AssemblyDirectory, "beso");
-                RhinoApp.WriteLine("Working: {0}", dirBeso);
+                RhinoApp.WriteLine("Working: {0}", Paths.beso);
                 // Delete files of previous BESO run, if any.
-                Helper.DeleteFilesByPattern(dirBeso, "file*");
-                Helper.DeleteFilesByPattern(dirBeso, "resulting_states*");
-                Helper.DeleteFilesByPattern(dirBeso, "*.png");
+                Helper.DeleteFilesByPattern(Paths.beso, "file*");
+                Helper.DeleteFilesByPattern(Paths.beso, "resulting_states*");
+                Helper.DeleteFilesByPattern(Paths.beso, "*.png");
                 // Modify `beso_conf.py` pointing to the correct `file_name` of INP.
-                // Must write to file in this format: "C:\\Users\\m3\\AppData\\Local\\Temp\\result.inp"
-                // Not this format: "C:\Users\m3\AppData\Local\Temp\result.inp"
-                Char psep = Path.DirectorySeparatorChar;
-                string p = Path.GetTempPath().Replace($@"{psep}", $@"{psep}{psep}");
                 Helper.ReplaceLineInFile(
-                    dirBeso + Path.DirectorySeparatorChar + "beso_conf.py",
+                    Paths.beso_cfg,
                     "file_name =",
-                    "file_name = \"" + p + "result.inp" + "\" # file with prepared linear static analysis"
+                    "file_name = \"" + Paths.resultEscap + "\" # file with prepared linear static analysis"
                     );
                 // Point `beso_conf.py` to CCX executable.
                 Helper.ReplaceLineInFile(
-                    dirBeso + Path.DirectorySeparatorChar + "beso_conf.py",
+                    Paths.beso_cfg,
                     "path_calculix =",
                     "path_calculix = \"..\\\\ccx_static.exe\" # path to the CalculiX solver"
                     );
                 // Limit cpu cores to avoid freezing the device.
                 Helper.ReplaceLineInFile(
-                    dirBeso + Path.DirectorySeparatorChar + "beso_conf.py",
+                    Paths.beso_cfg,
                     "cpu_cores =",
                     "cpu_cores = 1  # 0 - use all processor cores, N - will use N number of processor cores"
                     );
-                Helper.RunLogicBESO(dirBeso, displayBESO);
+                Helper.RunLogicBESO(Paths.beso, displayBESO);
             }
             catch (Exception ex)
             {
@@ -308,28 +292,25 @@ namespace BESO
         {
             try
             {
-                var dirBeso = Path.Combine(Helper.AssemblyDirectory, "beso");
-                RhinoApp.WriteLine("Working: {0}", dirBeso);
+                RhinoApp.WriteLine("Working: {0}", Paths.beso);
                 // Display the last file.
-                string lastFileName = Helper.GetLastFileName(dirBeso, "file*_state1.inp");
+                string lastFileName = Helper.GetLastFileName(Paths.beso, Paths.beso_result_format);
                 // Create a CGX config file with the correct file name.
-                string text = File.ReadAllText(Path.Combine(Helper.AssemblyDirectory, "cfg-beso.fbd"));
-                text = text.Replace("file?_state1.inp", dirBeso + Path.DirectorySeparatorChar + lastFileName);
-                File.WriteAllText(Path.GetTempPath() + "cfg-beso.fbd", text);
-                string args = "-b" + " " + Path.GetTempPath() + "cfg-beso.fbd";
+                string text = File.ReadAllText(Paths.cgx_cfg_beso_org);
+                text = text.Replace("file?_state1.inp", Paths.beso + Path.DirectorySeparatorChar + lastFileName);
+                File.WriteAllText(Paths.cgx_cfg_beso_new, text);
+                string args = "-b" + " " + Paths.cgx_cfg_beso_new;
 
-                var exePath = Path.Combine(Helper.AssemblyDirectory, "cgx_STATIC.exe");
-                RhinoApp.WriteLine("Working: {0}", exePath);
+                RhinoApp.WriteLine("Working: {0}", Paths.cgx);
 
-                if (File.Exists(exePath))
+                if (File.Exists(Paths.cgx))
                 {
-                    // Run external process
                     // Visualize BESO result.
-                    Helper.RunLogic(exePath, args, done);
+                    Helper.RunLogic(Paths.cgx, args, done);
                 }
                 else
                 {
-                    RhinoApp.WriteLine("File doesn't exist: ", exePath);
+                    RhinoApp.WriteLine("Doesn't exist: ", Paths.cgx);
                 }
             }
             catch (Exception ex)
