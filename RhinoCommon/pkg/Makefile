@@ -3,6 +3,10 @@
 ### By Windows start menu, launch:
 ### `Developer Command Prompt for VS 2022`
 
+build:
+	cd %userprofile%\go\src\BESO\RhinoCommon\BESO
+	dotnet build BESO.sln -c Release -f net48 -p:Version=1.0.6.0
+
 # To delete outdated files.
 clean:
 	cd %userprofile%\go\src\BESO\RhinoCommon\pkg\dist
@@ -54,7 +58,7 @@ zip:
 	powershell Compress-Archive -Force dist BESO.zip
 
 # To create and distribute the release as a Rhino3D plugin package.
-distribute-server: clean install pkg push search
+distribute-server: build clean install pkg push search
 
 # To create and distribute the release as a Rhino3D plugin ZIP file.
-distribute: clean install pkg zip
+distribute: build clean install pkg zip
