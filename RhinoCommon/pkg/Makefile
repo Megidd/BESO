@@ -13,6 +13,7 @@ clean:
 	del *.bat 2> NUL
 	del NULL 2> NUL
 	del *.fbd 2> NUL
+	del *.pdb 2> NUL
 	rmdir /s /q beso> NUL
 
 # To create the manifest file, if `manifest.yml` doesn't exist already.
