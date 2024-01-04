@@ -191,8 +191,20 @@ namespace BESO
             args += specsPth;
 
             RhinoApp.WriteLine("Finite elements...");
-            // Generate finite elements required by FEA.
-            Helper.RunLogicWithLog("finite_elements.exe", args, runFEA);
+
+            var path = Path.Combine(Helper.AssemblyDirectory, "finite_elements.exe");
+            RhinoApp.WriteLine(path);
+
+            if (File.Exists(path))
+            {
+                // Run external process
+                // Generate finite elements required by FEA.
+                Helper.RunLogicWithLog("finite_elements.exe", args, runFEA);
+            } else
+            {
+                RhinoApp.WriteLine("File doesn't exist: ", path);
+                return Result.Failure;
+            }
 
             return Result.Success;
         }
