@@ -101,7 +101,7 @@ namespace BESO
                     continue;
                 }
 
-                RhinoApp.WriteLine("Picked point: {0}", pickedPoint);
+                //RhinoApp.WriteLine("Picked point: {0}", pickedPoint);
                 points.Add(pickedPoint);
             }
 
