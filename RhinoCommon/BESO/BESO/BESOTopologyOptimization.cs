@@ -190,19 +190,17 @@ namespace BESO
             args += " ";
             args += specsPth;
 
-            RhinoApp.WriteLine("Finite elements...");
+            var exePath = Path.Combine(Helper.AssemblyDirectory, "finite_elements.exe");
+            RhinoApp.WriteLine("Working: {0}", exePath);
 
-            var path = Path.Combine(Helper.AssemblyDirectory, "finite_elements.exe");
-            RhinoApp.WriteLine(path);
-
-            if (File.Exists(path))
+            if (File.Exists(exePath))
             {
                 // Run external process
                 // Generate finite elements required by FEA.
-                Helper.RunLogicWithLog("finite_elements.exe", args, runFEA);
+                Helper.RunLogicWithLog(exePath, args, runFEA);
             } else
             {
-                RhinoApp.WriteLine("File doesn't exist: ", path);
+                RhinoApp.WriteLine("File doesn't exist: ", exePath);
                 return Result.Failure;
             }
 
@@ -213,10 +211,22 @@ namespace BESO
         {
             try
             {
-                RhinoApp.WriteLine("FEA...");
                 string args = "-i" + " " + Path.GetTempPath() + "result";
-                // Do FEA i.e. finite element analysis.
-                Helper.RunLogic("ccx_static.exe", args, displayFEA);
+
+                var exePath = Path.Combine(Helper.AssemblyDirectory, "ccx_static.exe");
+                RhinoApp.WriteLine("Working: {0}", exePath);
+
+                if (File.Exists(exePath))
+                {
+                    // Run external process
+                    // Do FEA i.e. finite element analysis.
+                    Helper.RunLogic(exePath, args, displayFEA);
+                }
+                else
+                {
+                    RhinoApp.WriteLine("File doesn't exist: ", exePath);
+                }
+
             }
             catch (Exception ex)
             {
@@ -228,14 +238,25 @@ namespace BESO
         {
             try
             {
-                RhinoApp.WriteLine("FEA result...");
                 // Create a CGX config file with the correct FRD file name.
-                string text = File.ReadAllText("cfg.fbd");
+                string text = File.ReadAllText(Path.Combine(Helper.AssemblyDirectory, "cfg.fbd"));
                 text = text.Replace("result.frd", Path.GetTempPath() + "result.frd");
                 File.WriteAllText(Path.GetTempPath() + "cfg.fbd", text);
                 string args = "-b" + " " + Path.GetTempPath() + "cfg.fbd";
-                // Visualize FEA result.
-                Helper.RunLogic("cgx_STATIC.exe", args, runBESO);
+
+                var exePath = Path.Combine(Helper.AssemblyDirectory, "cgx_STATIC.exe");
+                RhinoApp.WriteLine("Working: {0}", exePath);
+
+                if (File.Exists(exePath))
+                {
+                    // Run external process
+                    // Visualize FEA result.
+                    Helper.RunLogic(exePath, args, runBESO);
+                }
+                else
+                {
+                    RhinoApp.WriteLine("File doesn't exist: ", exePath);
+                }
             }
             catch (Exception ex)
             {
@@ -247,34 +268,35 @@ namespace BESO
         {
             try
             {
-                RhinoApp.WriteLine("BESO...");
+                var dirBeso = Path.Combine(Helper.AssemblyDirectory, "beso");
+                RhinoApp.WriteLine("Working: {0}", dirBeso);
                 // Delete files of previous BESO run, if any.
-                Helper.DeleteFilesByPattern("beso", "file*");
-                Helper.DeleteFilesByPattern("beso", "resulting_states*");
-                Helper.DeleteFilesByPattern("beso", "*.png");
+                Helper.DeleteFilesByPattern(dirBeso, "file*");
+                Helper.DeleteFilesByPattern(dirBeso, "resulting_states*");
+                Helper.DeleteFilesByPattern(dirBeso, "*.png");
                 // Modify `beso_conf.py` pointing to the correct `file_name` of INP.
                 // Must write to file in this format: "C:\\Users\\m3\\AppData\\Local\\Temp\\result.inp"
                 // Not this format: "C:\Users\m3\AppData\Local\Temp\result.inp"
                 Char psep = Path.DirectorySeparatorChar;
                 string p = Path.GetTempPath().Replace($@"{psep}", $@"{psep}{psep}");
                 Helper.ReplaceLineInFile(
-                    "beso" + Path.DirectorySeparatorChar + "beso_conf.py",
+                    dirBeso + Path.DirectorySeparatorChar + "beso_conf.py",
                     "file_name =",
                     "file_name = \"" + p + "result.inp" + "\" # file with prepared linear static analysis"
                     );
                 // Point `beso_conf.py` to CCX executable.
                 Helper.ReplaceLineInFile(
-                    "beso" + Path.DirectorySeparatorChar + "beso_conf.py",
+                    dirBeso + Path.DirectorySeparatorChar + "beso_conf.py",
                     "path_calculix =",
                     "path_calculix = \"..\\\\ccx_static.exe\" # path to the CalculiX solver"
                     );
                 // Limit cpu cores to avoid freezing the device.
                 Helper.ReplaceLineInFile(
-                    "beso" + Path.DirectorySeparatorChar + "beso_conf.py",
+                    dirBeso + Path.DirectorySeparatorChar + "beso_conf.py",
                     "cpu_cores =",
                     "cpu_cores = 1  # 0 - use all processor cores, N - will use N number of processor cores"
                     );
-                Helper.RunLogicBESO(displayBESO);
+                Helper.RunLogicBESO(dirBeso, displayBESO);
             }
             catch (Exception ex)
             {
@@ -286,16 +308,29 @@ namespace BESO
         {
             try
             {
-                RhinoApp.WriteLine("BESO result...");
+                var dirBeso = Path.Combine(Helper.AssemblyDirectory, "beso");
+                RhinoApp.WriteLine("Working: {0}", dirBeso);
                 // Display the last file.
-                string lastFileName = Helper.GetLastFileName("beso", "file*_state1.inp");
+                string lastFileName = Helper.GetLastFileName(dirBeso, "file*_state1.inp");
                 // Create a CGX config file with the correct file name.
-                string text = File.ReadAllText("cfg-beso.fbd");
-                text = text.Replace("file?_state1.inp", "beso" + Path.DirectorySeparatorChar + lastFileName);
+                string text = File.ReadAllText(Path.Combine(Helper.AssemblyDirectory, "cfg-beso.fbd"));
+                text = text.Replace("file?_state1.inp", dirBeso + Path.DirectorySeparatorChar + lastFileName);
                 File.WriteAllText(Path.GetTempPath() + "cfg-beso.fbd", text);
                 string args = "-b" + " " + Path.GetTempPath() + "cfg-beso.fbd";
-                // Visualize BESO result.
-                Helper.RunLogic("cgx_STATIC.exe", args, done);
+
+                var exePath = Path.Combine(Helper.AssemblyDirectory, "cgx_STATIC.exe");
+                RhinoApp.WriteLine("Working: {0}", exePath);
+
+                if (File.Exists(exePath))
+                {
+                    // Run external process
+                    // Visualize BESO result.
+                    Helper.RunLogic(exePath, args, done);
+                }
+                else
+                {
+                    RhinoApp.WriteLine("File doesn't exist: ", exePath);
+                }
             }
             catch (Exception ex)
             {

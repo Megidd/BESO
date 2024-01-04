@@ -365,7 +365,7 @@ namespace BESO
             }
         }
 
-        public static void RunLogicBESO(PostProcess pp)
+        public static void RunLogicBESO(string path, PostProcess pp)
         {
             cmd = new Process();
 
@@ -392,7 +392,7 @@ namespace BESO
                 cmd.Exited += new EventHandler(pp);
 
                 cmd.Start();
-                cmd.StandardInput.WriteLine("cd beso\\");
+                cmd.StandardInput.WriteLine(String.Format("cd {0}", path));
                 cmd.StandardInput.WriteLine("virtual_env\\Scripts\\activate.bat");
                 // Python virtual env already has the numpy and matplotlib.
                 cmd.StandardInput.WriteLine("python beso_main.py");
