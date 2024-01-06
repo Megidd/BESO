@@ -29,6 +29,10 @@ A future video will demonstrate how to use the plugin commands after installatio
 
 ![BESO result](RhinoCommon/doc/BESO.png "BESO result")
 
+# Known issues
+
+There are known issues like this: https://github.com/calculix/beso/issues/36
+
 # Why this plugin?
 
 An in-depth description of BESO and its capabilities are available on the [wiki](https://github.com/calculix/beso/wiki/Basic-description).
