@@ -13,7 +13,7 @@ pull-beso:
 
 build:
 	cd %userprofile%\go\src\BESO\RhinoCommon\BESO
-	dotnet build BESO.sln -c Release -f net48 -p:Version=1.0.6.0
+	dotnet build BESO.sln -c Release -f net48 -p:Version=1.0.7.0
 
 # To delete outdated files.
 clean:
