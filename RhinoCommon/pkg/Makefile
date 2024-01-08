@@ -3,6 +3,13 @@
 ### By Windows start menu, launch:
 ### `Developer Command Prompt for VS 2022`
 
+pull-beso:
+	cd %userprofile%\go\src\BESO\RhinoCommon\BESO\BESO\RuntimeEnv\beso
+	xcopy /D /Y /E /H /I %userprofile%\repos\beso\.git .\.git
+	git checkout .
+	git pull origin master
+	rmdir /s /q .git
+
 build:
 	cd %userprofile%\go\src\BESO\RhinoCommon\BESO
 	dotnet build BESO.sln -c Release -f net48 -p:Version=1.0.6.0
