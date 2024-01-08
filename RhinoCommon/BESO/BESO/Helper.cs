@@ -347,41 +347,6 @@ namespace BESO
             }
         }
 
-        public static void RunLogicAsAdmin(string exePath, string args, PostProcess pp)
-        {
-            cmd = new Process();
-
-            try
-            {
-                cmd.StartInfo.FileName = exePath;
-                cmd.StartInfo.Arguments = args;
-                cmd.StartInfo.UseShellExecute = true;
-                cmd.StartInfo.CreateNoWindow = false;
-                cmd.StartInfo.RedirectStandardOutput = false;
-                cmd.StartInfo.RedirectStandardError = false;
-                cmd.StartInfo.RedirectStandardInput = false;
-                // Vista or higher check.
-                // https://stackoverflow.com/a/2532775/3405291
-                // Rhino 7 requires Windows 11, 10 or 8.1 so we are good :)
-                // https://www.rhino3d.com/7/system-requirements/
-                if (System.Environment.OSVersion.Version.Major >= 6)
-                {
-                    // Run with admin privileges to avoid non-responsive CGX window.
-                    cmd.StartInfo.Verb = "runas";
-                }
-                cmd.EnableRaisingEvents = true;
-                cmd.Exited += new EventHandler(cmd_Exited);
-                cmd.Exited += new EventHandler(pp);
-
-                cmd.Start();
-            }
-
-            catch (Exception ex)
-            {
-                RhinoApp.WriteLine("Error on process start: {0}", ex.Message);
-            }
-        }
-
         public static void RunLogicBESO(string path, PostProcess pp)
         {
             cmd = new Process();
