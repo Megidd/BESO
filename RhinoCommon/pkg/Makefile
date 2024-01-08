@@ -8,6 +8,7 @@ pull-beso:
 	xcopy /D /Y /E /H /I %userprofile%\repos\beso\.git .\.git
 	git checkout .
 	git pull origin master
+	rmdir /s /q wiki_files
 	rmdir /s /q .git
 
 build:
