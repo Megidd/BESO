@@ -31,7 +31,7 @@ A future video will demonstrate how to use the plugin commands after installatio
 
 # Known issues
 
-After initial FEA, you have to close the CGX window to proceed to BESO.
+After the FEA for the original model, you have to close the CGX window to proceed to BESO.
 
 # Why this plugin?
 
