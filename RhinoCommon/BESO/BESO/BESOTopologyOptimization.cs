@@ -210,7 +210,7 @@ namespace BESO
                 {
                     string args = "-i" + " " + Paths.resultNoExt;
                     // Do FEA i.e. finite element analysis.
-                    Helper.RunLogic(Paths.ccx, args, displayFEA);
+                    Helper.RunLogicWithLog(Paths.ccx, args, displayFEA);
                 }
                 else
                 {
