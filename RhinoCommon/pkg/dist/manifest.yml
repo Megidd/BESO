@@ -1,6 +1,6 @@
 ---
 name: BESO
-version: 2.0.0.0
+version: 2.1.0.0
 authors:
 - www.nano3dtech.com
 description: Topology optimization using BESO or Bi-directional Evolutionary Structural Optimization. https://github.com/Megidd/BESO
