@@ -3,6 +3,15 @@
 ### By Windows start menu, launch:
 ### `Developer Command Prompt for VS 2022`
 
+pull-fe:
+	cd %userprofile%\go\src\sdfx\examples\finite_elements
+	git checkout fe
+	git pull public fe
+	go clean
+	go build
+	copy "finite_elements.exe" "%userprofile%\go\src\BESO\RhinoCommon\BESO\BESO\bin\Release\net48"
+	copy "finite_elements.exe" "%userprofile%\go\src\BESO\RhinoCommon\BESO\BESO\bin\Debug\net48"
+
 pull-beso:
 	cd %userprofile%\go\src\BESO\RhinoCommon\BESO\BESO\RuntimeEnv\beso
 	xcopy /D /Y /E /H /I %userprofile%\repos\beso\.git .\.git
