@@ -9,8 +9,7 @@ pull-fe:
 	git pull public fe
 	go clean
 	go build
-	copy "finite_elements.exe" "%userprofile%\go\src\BESO\RhinoCommon\BESO\BESO\bin\Release\net48"
-	copy "finite_elements.exe" "%userprofile%\go\src\BESO\RhinoCommon\BESO\BESO\bin\Debug\net48"
+	copy "finite_elements.exe" "%userprofile%\go\src\BESO\RhinoCommon\BESO\BESO\RuntimeEnv"
 
 pull-beso:
 	cd %userprofile%\go\src\BESO\RhinoCommon\BESO\BESO\RuntimeEnv\beso
