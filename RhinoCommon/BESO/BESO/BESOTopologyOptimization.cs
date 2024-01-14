@@ -280,7 +280,7 @@ namespace BESO
                     "cpu_cores =",
                     "cpu_cores = 1  # 0 - use all processor cores, N - will use N number of processor cores"
                     );
-                Helper.RunLogicBESO(Paths.beso, displayBESO);
+                Helper.RunLogicBESOWithLog(Paths.beso, displayBESO);
             }
             catch (Exception ex)
             {
