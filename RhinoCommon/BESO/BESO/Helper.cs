@@ -382,43 +382,6 @@ namespace BESO
             }
         }
 
-        public static void RunLogicBESOWithLog(string path, PostProcess pp)
-        {
-            cmd = new Process();
-
-            try
-            {
-                cmd.StartInfo.FileName = "cmd.exe";
-                cmd.StartInfo.Arguments = "";
-                cmd.StartInfo.UseShellExecute = false; // To be able to activate Python env.
-                cmd.StartInfo.CreateNoWindow = true;
-                cmd.StartInfo.RedirectStandardOutput = true;
-                cmd.StartInfo.RedirectStandardError = true;
-                cmd.StartInfo.RedirectStandardInput = true; // To be able to write line.
-
-                // Don't run as admin.
-
-                cmd.EnableRaisingEvents = true;
-                cmd.OutputDataReceived += new DataReceivedEventHandler(cmd_LogReceived);
-                cmd.ErrorDataReceived += new DataReceivedEventHandler(cmd_LogReceived);
-                cmd.Exited += new EventHandler(cmd_Exited);
-                cmd.Exited += new EventHandler(pp);
-
-                cmd.Start();
-                cmd.StandardInput.WriteLine(String.Format("cd {0}", path));
-                cmd.StandardInput.WriteLine("virtual_env\\Scripts\\activate.bat");
-                // Python virtual env already has the numpy and matplotlib.
-                cmd.StandardInput.WriteLine("python beso_main.py");
-                // Have to exit to jump to the post-process.
-                cmd.StandardInput.WriteLine("exit");
-            }
-
-            catch (Exception ex)
-            {
-                RhinoApp.WriteLine("Error on process start: {0}", ex.Message);
-            }
-        }
-
         private static void cmd_Exited(object sender, EventArgs e)
         {
             try
