@@ -6,7 +6,11 @@ namespace BESO
 {
     internal class Paths
     {
-        public static string AssemblyDirectory
+        public Paths()
+        {
+            tmpDir = CreateTempSubdirectory() + Path.DirectorySeparatorChar;
+        }
+        private string AssemblyDirectory
         {
             get
             {
@@ -17,15 +21,33 @@ namespace BESO
             }
         }
 
+        private string tmpDir;
+
+        // https://stackoverflow.com/a/278457/3405291
+        private string CreateTempSubdirectory()
+        {
+            string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+
+            if (File.Exists(tempDirectory))
+            {
+                return CreateTempSubdirectory();
+            }
+            else
+            {
+                Directory.CreateDirectory(tempDirectory);
+                return tempDirectory;
+            }
+        }
+
         // Input object to be saved as STL.
         // Material props are all based on mm, so STL unit would be converted to mm.
-        public static string stl = Path.GetTempPath() + "input.stl";
+        public string stl { get { return tmpDir + "input.stl"; } }
 
-        public static string load = Path.GetTempPath() + "load-points.json";
-        public static string restraint = Path.GetTempPath() + "restraint-points.json";
+        public string load { get { return tmpDir + "load-points.json"; } }
+        public string restraint { get { return tmpDir + "restraint-points.json"; } }
 
-        public static string result = Path.GetTempPath() + "result.inp";
-        public static string resultEscap
+        public string result { get { return tmpDir + "result.inp"; } }
+        public string resultEscap
         {
             get
             {
@@ -35,32 +57,32 @@ namespace BESO
                 // "C:\Users\m3\AppData\Local\Temp\result.inp"
 
                 Char psep = Path.DirectorySeparatorChar;
-                string p = Path.GetTempPath().Replace($@"{psep}", $@"{psep}{psep}");
+                string p = tmpDir.Replace($@"{psep}", $@"{psep}{psep}");
                 return p + "result.inp";
             }
         }
-        public static string resultNoExt = Path.GetTempPath() + "result";
-        public static string report = Path.GetTempPath() + "report.json";
+        public string resultNoExt { get { return tmpDir + "result"; } }
+        public string report { get { return tmpDir + "report.json"; } }
 
-        public static string specs = Path.GetTempPath() + "specs.json";
+        public string specs { get { return tmpDir + "specs.json"; } }
 
-        public static string fe = Path.Combine(AssemblyDirectory, "finite_elements.exe");
+        public string fe { get { return Path.Combine(AssemblyDirectory, "finite_elements.exe"); } }
 
-        public static string ccx = Path.Combine(AssemblyDirectory, "ccx_static.exe");
+        public string ccx { get { return Path.Combine(AssemblyDirectory, "ccx_static.exe"); } }
 
-        public static string cgx_cfg_fea_org = Path.Combine(AssemblyDirectory, "cfg.fbd");
-        public static string cgx_cfg_fea_new = Path.GetTempPath() + "cfg.fbd";
-        public static string result_frd = Path.GetTempPath() + "result.frd";
+        public string cgx_cfg_fea_org { get { return Path.Combine(AssemblyDirectory, "cfg.fbd"); } }
+        public string cgx_cfg_fea_new { get { return tmpDir + "cfg.fbd"; } }
+        public string result_frd { get { return tmpDir + "result.frd"; } }
 
-        public static string cgx = Path.Combine(AssemblyDirectory, "cgx_STATIC.exe");
+        public string cgx { get { return Path.Combine(AssemblyDirectory, "cgx_STATIC.exe"); } }
 
-        public static string beso = Path.Combine(AssemblyDirectory, "beso");
+        public string beso { get { return Path.Combine(AssemblyDirectory, "beso"); } }
 
-        public static string beso_cfg = beso + Path.DirectorySeparatorChar + "beso_conf.py";
+        public string beso_cfg { get { return beso + Path.DirectorySeparatorChar + "beso_conf.py"; } }
 
-        public static string beso_result_format = "file*_state1.inp";
+        public string beso_result_format { get { return "file*_state1.inp"; } }
 
-        public static string cgx_cfg_beso_org = Path.Combine(AssemblyDirectory, "cfg-beso.fbd");
-        public static string cgx_cfg_beso_new = Path.GetTempPath() + "cfg-beso.fbd";
+        public string cgx_cfg_beso_org { get { return Path.Combine(AssemblyDirectory, "cfg-beso.fbd"); } }
+        public string cgx_cfg_beso_new { get { return tmpDir + "cfg-beso.fbd"; } }
     }
 }
