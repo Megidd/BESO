@@ -21,7 +21,7 @@ namespace BESO
             }
         }
 
-        private string tmpDir;
+        public string tmpDir;
 
         // https://stackoverflow.com/a/278457/3405291
         private string CreateTempSubdirectory()
@@ -46,21 +46,21 @@ namespace BESO
         public string load { get { return tmpDir + "load-points.json"; } }
         public string restraint { get { return tmpDir + "restraint-points.json"; } }
 
-        public string result { get { return tmpDir + "result.inp"; } }
-        public string resultEscap
-        {
-            get
-            {
-                // Sometimes, must write to Python config file in this format:
-                // "C:\\Users\\m3\\AppData\\Local\\Temp\\result.inp"
-                // Not this format:
-                // "C:\Users\m3\AppData\Local\Temp\result.inp"
+        public string resultName { get { return "result.inp"; } }
+        public string result { get { return tmpDir + resultName; } }
 
-                Char psep = Path.DirectorySeparatorChar;
-                string p = tmpDir.Replace($@"{psep}", $@"{psep}{psep}");
-                return p + "result.inp";
-            }
+        // Sometimes, must write to Python config file in this format:
+        // "C:\\Users\\m3\\AppData\\Local\\Temp\\result.inp"
+        // Not this format:
+        // "C:\Users\m3\AppData\Local\Temp\result.inp"
+        public string escape(string pth)
+        {
+
+            Char psep = Path.DirectorySeparatorChar;
+            string p = pth.Replace($@"{psep}", $@"{psep}{psep}");
+            return p;
         }
+        
         public string resultNoExt { get { return tmpDir + "result"; } }
         public string report { get { return tmpDir + "report.json"; } }
 

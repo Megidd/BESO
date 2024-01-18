@@ -265,21 +265,26 @@ namespace BESO
             try
             {
                 RhinoApp.WriteLine("Working: {0}", paths.beso);
-                // Delete files of previous BESO run, if any.
-                Helper.DeleteFilesByPattern(paths.beso, "file*");
-                Helper.DeleteFilesByPattern(paths.beso, "resulting_states*");
-                Helper.DeleteFilesByPattern(paths.beso, "*.png");
+
+                // Every command run has its own temp directory.
+                // So, no need to delete files of previous run.
+
+                Helper.ReplaceLineInFile(
+                    paths.beso_cfg,
+                    "path =",
+                    "path = \"" + paths.escape(paths.tmpDir) + "" + "\"  # path to the working directory (without whitespaces) where the initial file is located"
+                    );
                 // Modify `beso_conf.py` pointing to the correct `file_name` of INP.
                 Helper.ReplaceLineInFile(
                     paths.beso_cfg,
                     "file_name =",
-                    "file_name = \"" + paths.resultEscap + "\" # file with prepared linear static analysis"
+                    "file_name = \"" + paths.resultName + "\" # file with prepared linear static analysis"
                     );
                 // Point `beso_conf.py` to CCX executable.
                 Helper.ReplaceLineInFile(
                     paths.beso_cfg,
                     "path_calculix =",
-                    "path_calculix = \"..\\\\ccx_static.exe\" # path to the CalculiX solver"
+                    "path_calculix = \"" + paths.escape(paths.ccx) + "\" # path to the CalculiX solver"
                     );
                 // Limit cpu cores to avoid freezing the device.
                 Helper.ReplaceLineInFile(
@@ -299,12 +304,12 @@ namespace BESO
         {
             try
             {
-                RhinoApp.WriteLine("Working: {0}", paths.beso);
+                RhinoApp.WriteLine("Working: {0}", paths.tmpDir);
                 // Display the last file.
-                string lastFileName = Helper.GetLastFileName(paths.beso, paths.beso_result_format);
+                string lastFileName = Helper.GetLastFileName(paths.tmpDir, paths.beso_result_format);
                 // Create a CGX config file with the correct file name.
                 string text = File.ReadAllText(paths.cgx_cfg_beso_org);
-                text = text.Replace("file?_state1.inp", paths.beso + Path.DirectorySeparatorChar + lastFileName);
+                text = text.Replace("file?_state1.inp", paths.tmpDir + Path.DirectorySeparatorChar + lastFileName);
                 File.WriteAllText(paths.cgx_cfg_beso_new, text);
                 string args = "-b" + " " + paths.cgx_cfg_beso_new;
 
