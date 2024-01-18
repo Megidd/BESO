@@ -197,7 +197,8 @@ namespace BESO
                 // Run external process
                 // Generate finite elements required by FEA.
                 Helper.RunLogicWithLog(paths.fe, args, runFEA);
-            } else
+            }
+            else
             {
                 RhinoApp.WriteLine("Doesn't exist: ", paths.fe);
                 return Result.Failure;
