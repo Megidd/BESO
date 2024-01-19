@@ -293,47 +293,6 @@ namespace BESO
                     "cpu_cores = 1  # 0 - use all processor cores, N - will use N number of processor cores"
                     );
                 Helper.RunLogicBESO(paths.beso, displayBESO);
-                displayBESORealtime();
-            }
-            catch (Exception ex)
-            {
-                RhinoApp.WriteLine("Error: {0}", ex.Message);
-            }
-        }
-
-        private void displayBESORealtime()
-        {
-            try
-            {
-                RhinoApp.WriteLine("Working: {0}", paths.tmpDir);
-                bool goAhead = true;
-                while (goAhead)
-                {
-                    // Display the last file.
-                    string lastFileName = Helper.GetLastFileName(paths.tmpDir, paths.beso_result_format);
-                    if (File.Exists(paths.tmpDir + lastFileName))
-                    {
-                        // Create a CGX config file with the correct file name.
-                        string text = File.ReadAllText(paths.cgx_cfg_beso_org);
-                        text = text.Replace("file?_state1.inp", paths.tmpDir + Path.DirectorySeparatorChar + lastFileName);
-                        File.WriteAllText(paths.cgx_cfg_beso_new, text);
-                        string args = "-b" + " " + paths.cgx_cfg_beso_new;
-
-                        RhinoApp.WriteLine("Working: {0}", paths.cgx);
-
-                        if (File.Exists(paths.cgx))
-                        {
-                            // Visualize BESO result.
-                            Helper.RunLogic(paths.cgx, args, done);
-                        }
-                        else
-                        {
-                            RhinoApp.WriteLine("Doesn't exist: ", paths.cgx);
-                        }
-                    }
-                    // Wait.
-                    System.Threading.Thread.Sleep(8000);
-                }
             }
             catch (Exception ex)
             {

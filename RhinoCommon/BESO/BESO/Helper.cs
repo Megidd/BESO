@@ -551,8 +551,7 @@ namespace BESO
             }
             else
             {
-                //throw new FileNotFoundException("No files found in the directory.");
-                return "";
+                throw new FileNotFoundException("No files found in the directory.");
             }
         }
 
